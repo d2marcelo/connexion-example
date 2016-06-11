@@ -11,6 +11,28 @@ security:
   # (only active if the TOKENINFO_URL environment variable is set)
   - oauth2: [uid]
 paths:
+  /django:
+    get:
+      tags: [Pets]
+      operationId: django_files.django_app.UserViewSet:list
+      summary: Get all pets
+      parameters:
+        - name: animal_type
+          in: query
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+        - name: limit
+          in: query
+          type: integer
+          minimum: 0
+          default: 100
+      responses:
+        200:
+          description: Return pets
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
   /pets:
     get:
       tags: [Pets]
